@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from main.decorators import role_required
+from main.decorators import restrict_access_if_pending_card, role_required
+from main.models.bank_account import BankAccount
 from main.models.bank_card import BankCard
 
 from django.utils.timezone import now
@@ -37,3 +38,13 @@ def request_bank_card(request):
         return redirect("customer_home")  # Replace with the correct URL name
 
     return render(request, "request_bank_card.html")
+
+
+@role_required(['CUSTOMER'])
+@restrict_access_if_pending_card  # Restrict access if card status is "REQUESTED"
+def money_account_view(request):
+    user_bank_account = BankAccount.objects.filter(user=request.user).first()
+    if not user_bank_account:
+        return render(request, 'no_account.html')  # No account available
+    return render(request, 'money_account.html', {'account': user_bank_account})
+

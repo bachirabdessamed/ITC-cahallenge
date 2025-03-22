@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Money Account</title>
+</head>
+<body>
+    <h1>Your Money Account</h1>
+    <p><strong>Account Number:</strong> {{ account.account_number }}</p>
+    <p><strong>Balance:</strong> ${{ account.balance }}</p>
+
+    <a href="{% url 'customer-home' %}">Back to Home</a>
+</body>
+</html>
