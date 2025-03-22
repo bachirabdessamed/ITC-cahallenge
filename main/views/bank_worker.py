@@ -2,12 +2,14 @@ from django.contrib import messages
 
 from django.shortcuts import redirect, render
 
+from main.decorators import role_required
 from main.models.bank_card import BankCard
 from django.contrib.auth.decorators import login_required
 
 
 
 @login_required
+@role_required(allowed_roles=['BANK_WORKER'])
 def manage_bank_cards(request):
     if request.user.role != 'BANK_WORKER':
         return redirect('/login')

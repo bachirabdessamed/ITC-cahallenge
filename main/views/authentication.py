@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from main.decorators import role_required
 from main.models.user import User
 from django.core.mail import send_mail
 
@@ -30,6 +31,7 @@ def login_view(request):
     return render(request, 'login.html')
 
 @login_required
+@role_required(allowed_roles=['CUSTOMER'])
 def customer_home(request):
     if request.user.role != 'CUSTOMER':
         return redirect('/login')  # Redirect if the user is not a customer
@@ -42,6 +44,7 @@ def generate_random_password(length=8):
 
 
 @login_required
+@role_required(allowed_roles=['BANK_WORKER'])
 def create_user(request):
     if request.user.role != 'BANK_WORKER':
         return HttpResponseForbidden("You are not authorized to perform this action.")
@@ -60,3 +63,7 @@ def create_user(request):
         return redirect('/create-user')
 
     return render(request, 'create_user.html')
+
+
+def forbidden_view(request):
+    return render(request, '403.html', status=403)

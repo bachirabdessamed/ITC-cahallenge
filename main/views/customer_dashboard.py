@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from main.decorators import role_required
 from main.models.bank_account import BankAccount
 from main.models.transaction import Transaction
 
 @login_required
+@role_required(allowed_roles=['CUSTOMER'])
 def user_dashboard(request):
     if request.user.role != 'CUSTOMER':
         return HttpResponseForbidden("You are not authorized to view this page.")

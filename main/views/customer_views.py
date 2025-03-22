@@ -2,10 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from main.decorators import role_required
 from main.models.bank_card import BankCard
 
 from django.utils.timezone import now
 
+
+@login_required
+@role_required(allowed_roles=['CUSTOMER'])
 def request_bank_card(request):
     if request.method == "POST":
         user = request.user
@@ -30,6 +34,6 @@ def request_bank_card(request):
         )
 
         messages.success(request, "Your bank card request has been submitted successfully.")
-        return redirect("customer_dashboard")  # Replace with the correct URL name
+        return redirect("customer_home")  # Replace with the correct URL name
 
     return render(request, "request_bank_card.html")
