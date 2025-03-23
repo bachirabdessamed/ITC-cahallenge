@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # django celery beat 
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +145,10 @@ AUTH_USER_MODEL = 'main.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+
+broker_connection_retry_on_startup = True
+
+LOGOUT_REDIRECT_URL = '/'

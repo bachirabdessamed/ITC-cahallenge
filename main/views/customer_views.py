@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from main.decorators import restrict_access_if_pending_card, role_required
+from main.forms import UpdateProfileForm
 from main.models.bank_account import BankAccount
 from main.models.bank_card import BankCard
 
@@ -67,3 +68,22 @@ def money_account_view(request):
     # Render the money account page
     return render(request, 'money_account.html', {'account': user_bank_account})
 
+@role_required(['CUSTOMER'])
+@login_required
+def update_profile(request):
+    user = request.user
+    if request.method == "POST":
+        form = UpdateProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            user.email = email
+            if password:
+                user.set_password(password)
+            user.save()
+            messages.success(request, "Your profile was updated successfully.")
+            return redirect("update_profile")
+    else:
+        form = UpdateProfileForm(instance=user)
+
+    return render(request, "update_profile.html", {"form": form})

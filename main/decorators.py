@@ -24,3 +24,10 @@ def restrict_access_if_pending_card(view_func):
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
+def unauthenticated_user(view_func):
+    def wrapper_func(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('customer_home')  # Replace 'customer_home' with the desired redirect page
+        else:
+            return view_func(request, *args, **kwargs)
+    return wrapper_func

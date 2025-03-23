@@ -1,17 +1,13 @@
+from datetime import timezone
 from uuid import uuid4
 from .models import ActionLog
+from django.utils import timezone  # Correct import for timezone
 
-def log_action(user, action):
-    """
-    Logs an action performed by a user.
 
-    Args:
-        user: The user performing the action (Django User object).
-        action: A string describing the action.
-    """
+def log_action(user, action, user_email=None):
     ActionLog.objects.create(
-        id=uuid4(),
+        user_id=user.id if user else uuid4(),  # Use a placeholder UUID
+        user_email=user_email or (user.email if user else "unknown@example.com"),
         action=action,
-        user_id=user.id,
-        user_email=user.email
+        created_at=timezone.now(),
     )

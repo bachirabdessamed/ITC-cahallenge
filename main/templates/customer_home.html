@@ -4,9 +4,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .welcome-message {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .credit-card-container {
+            perspective: 1000px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .credit-card {
+            width: 100%;
+            height: 350px; /* Longer card */
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .credit-card.flipped {
+            transform: rotateY(180deg);
+        }
+        .credit-card .front,
+        .credit-card .back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 2rem;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+        }
+        .credit-card .front {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .credit-card .front .bank-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .credit-card .front .card-chip {
+            width: 50px;
+            height: 40px;
+            background: #ffdd57;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        .credit-card .front .card-number {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+        .credit-card .front .card-holder {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .credit-card .front .card-expiry {
+            font-size: 1rem;
+        }
+        .credit-card .back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .credit-card .back h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .credit-card .back ul {
+            list-style: none;
+            padding: 0;
+        }
+        .credit-card .back ul li {
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+        .credit-card .back ul li strong {
+            font-weight: 600;
+            color: #ffdd57;
+        }
+        .rotate-button {
+            display: block;
+            margin: 2rem auto;
+            padding: 0.75rem 1.5rem;
+            background-color: #0d6efd;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .rotate-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, Customer</h1>
-    <p>Welcome, {{ user.email }}</p>
+    {% include 'navbar.html' %}
+
+    <div class="container mt-5">
+        <div class="welcome-message">
+            <p>Welcome{{ user.firstname }}</p>
+        </div>
+
+        <!-- Credit Card Container -->
+        <div class="credit-card-container">
+            <div class="credit-card" id="creditCard">
+                <!-- Front of the Card (Bank Name and Card Details) -->
+                <div class="front">
+                    <div class="bank-name">ITCash</div>
+                    <div class="card-chip"></div>
+                    {% for card in bank_cards %}
+                    <div class="card-number">{{ card.card_number|default:"Not assigned yet" }}</div>
+                    <div class="card-status text-center">{{ card.get_status_display }}</div>
+                    {% endfor %}                    
+                    <div class="card-holder">{{ user.first_name }} {{ user.last_name }}</div>
+                </div>
+
+                <!-- Back of the Card (User Profile Information) -->
+                <div class="back">
+                    <h2>{{ user.username }}</h2>
+                    <ul>
+                        <li><strong>Email:</strong> {{ user.email }}</li>
+                        <li><strong>First Name:</strong> {{ user.first_name }}</li>
+                        <li><strong>Last Name:</strong> {{ user.last_name }}</li>
+                        <li><strong>Role:</strong> {{ user.role|default:"Not specified" }}</li>
+                        <li><strong>Phone Number:</strong> {{ user.phone_number|default:"Not specified" }}</li>
+                        <li><strong>Date Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</li>
+                        <li><strong>Last Login:</strong> {{ user.last_login|date:"F d, Y H:i:s" }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rotate Button -->
+        <button class="rotate-button" onclick="rotateCard()">Rotate Card</button>
+
+        <!-- Additional Custom Information -->
+     
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript for Rotating the Card -->
+    <script>
+        function rotateCard() {
+            const card = document.getElementById('creditCard');
+            card.classList.toggle('flipped');
+        }
+    </script>
 </body>
 </html>

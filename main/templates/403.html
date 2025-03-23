@@ -4,10 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Denied</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        /* Center the content vertically and horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+        /* Big 403 text with animation */
+        .big-403 {
+            font-size: 10rem;
+            font-weight: bold;
+            color: #dc3545; /* Red color */
+            animation: fadeIn 2s ease-in-out;
+        }
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        /* Message styling */
+        .message {
+            font-size: 1.5rem;
+            color: #6c757d; /* Gray color */
+            animation: fadeIn 2.5s ease-in-out;
+        }
+        /* Link styling with hover effect */
+        .home-link {
+            font-size: 1.2rem;
+            color: #0d6efd; /* Bootstrap primary blue */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .home-link:hover {
+            color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
 </head>
 <body>
-    <h1>403 - Access Denied</h1>
-    <p>You do not have permission to access this page.</p>
-    <a href="/">Go Back to Home</a>
+    
+    <div class="text-center">
+        <div class="big-403">403</div>
+        <p class="message">You do not have permission to access this page.</p>
+        <a href="/login" class="home-link">Go Back to Home</a>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
