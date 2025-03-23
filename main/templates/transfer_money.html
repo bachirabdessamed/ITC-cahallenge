@@ -1,17 +1,67 @@
-<!-- transfer_money.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Transfer Money</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Transfer Money</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Transfer</button>
-    </form>
-    <a href="{% url 'customer_home' %}">Back to Home</a>
+    <div class="container mt-5">
+        <h1>Transfer Money</h1>
+
+        <!-- Display messages -->
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Form for money transfer -->
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Display sender's account number -->
+            <div class="mb-3">
+                <label for="senderAccountNumber" class="form-label">Your Account Number</label>
+                <input type="text" id="senderAccountNumber" class="form-control" value="{{ sender_account.account_number }}" disabled>
+            </div>
+
+            <!-- Recipient's account number -->
+            <div class="mb-3">
+                <label for="recipientAccountNumber" class="form-label">Recipient Account Number</label>
+                <div class="input-group">
+                    <span class="input-group-text">ACCT-</span>
+                    {{ form.recipient_account_number_suffix }}
+                </div>
+                <small class="form-text text-muted">{{ form.recipient_account_number_suffix.help_text }}</small>
+            </div>
+            
+
+            <!-- Amount -->
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                {{ form.amount }}
+                {% if form.amount.errors %}
+                    <div class="text-danger">
+                        {{ form.amount.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Transfer</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

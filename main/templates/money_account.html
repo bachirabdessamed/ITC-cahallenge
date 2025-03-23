@@ -8,8 +8,8 @@
 <body>
     <h1>Your Money Account</h1>
     <p><strong>Account Number:</strong> {{ account.account_number }}</p>
-    <p><strong>Balance:</strong> ${{ account.balance }}</p>
+    <p><strong>Balance:</strong> {{ account.balance }} DZD</p>
 
-    <a href="{% url 'customer-home' %}">Back to Home</a>
+    <a href="{% url 'customer_home' %}">Back to Home</a>
 </body>
 </html>
