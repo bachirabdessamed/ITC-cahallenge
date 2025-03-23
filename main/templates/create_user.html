@@ -13,6 +13,18 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
+                <!-- Messages Section -->
+                {% if messages %}
+                    <div class="mb-3">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white">
                         <h1 class="card-title text-center">Create User</h1>
@@ -46,20 +58,6 @@
             </div>
         </div>
     </div>
-
-    {% if messages %}
-        <div class="container mt-3">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <ul class="list-group">
-                        {% for message in messages %}
-                            <li class="list-group-item list-group-item-info">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    {% endif %}
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
