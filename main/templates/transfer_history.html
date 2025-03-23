@@ -1,0 +1,53 @@
+<!-- transfer_history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction History</title>
+</head>
+<body>
+    <h1>Transaction History</h1>
+
+    <h2>Sent Transactions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Recipient Account</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in sent_transactions %}
+            <tr>
+                <td>{{ transaction.recipient_account.account_number }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Received Transactions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Sender Account</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in received_transactions %}
+            <tr>
+                <td>{{ transaction.sender_account.account_number }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'customer_home' %}">Back to Home</a>
+</body>
+</html>

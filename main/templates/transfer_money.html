@@ -1,0 +1,17 @@
+<!-- transfer_money.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transfer Money</title>
+</head>
+<body>
+    <h1>Transfer Money</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Transfer</button>
+    </form>
+    <a href="{% url 'customer_home' %}">Back to Home</a>
+</body>
+</html>
